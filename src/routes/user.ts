@@ -1,5 +1,5 @@
 import express from "express";
-import {resisterUser, getUser} from '../controllers/user.js';
+import {resisterUser, getUser, updateUser} from '../controllers/user.js';
 
 const router = express.Router();
 
@@ -8,5 +8,8 @@ router.post('/', resisterUser);
 
 //get /user/:userId
 router.get('/:userId', getUser);
+
+//PUT /user/
+router.put('/', updateUser);
 
 export default router;
