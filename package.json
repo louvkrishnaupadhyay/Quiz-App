@@ -1,0 +1,21 @@
+{
+  "name": "quizapp",
+  "version": "1.0.0",
+  "discription": "making the quiz app",
+  "main": "app.js",
+  "author": "Louv",
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "yarn@4.9.1",
+  "dependencies": {
+    "@types/express": "^5.0.6",
+    "express": "^5.2.1",
+    "mongoose": "^9.1.1",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+  "build": "tsc --noEmitOnError",
+  "start": "node ./dist/app.js"
+}
+
+}
