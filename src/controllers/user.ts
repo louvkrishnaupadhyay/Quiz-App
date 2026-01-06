@@ -1,6 +1,8 @@
 import type { Request, Response } from "express";
 import User from "../models/user.js";
 
+import bcrypt from "bcryptjs";
+
 interface returnResponse {
     status: 'success' | 'error',
     message: String,
@@ -11,7 +13,13 @@ const resisterUser = async (req: Request, res: Response) =>{
 
     let resp:returnResponse;
     try {
-        const user = new User(req.body);
+        const email = req.body.email;
+        const name  = req.body.name;
+        
+        const password = await bcrypt.hash(req.body.password,12);
+
+
+        const user = new User({email, name, password});
         const result = await user.save();
         if(!result){
             resp = {status: 'error', message: "result not found", data:{}};
@@ -28,6 +36,43 @@ const resisterUser = async (req: Request, res: Response) =>{
     }
     
     
+}
+
+const loginUser = async (req: Request, res: Response)=>{
+    let resp:returnResponse;
+    try {
+
+        const email = req.body.email;
+        const password = req.body.password;
+
+        //find user with email
+        const user = await User.findOne({email});
+
+        if(!user){
+            resp = { status: "error", message: "User not found", data: {} };
+            return res.status(401).send(resp);
+        }
+
+
+        //verify password by bcrypt
+        const status = await bcrypt.compare(password, user.password);
+
+        //then decide
+        if(status){
+            resp = {status: 'success', message: "Logged In", data:{}};
+            res.status(200).send(resp);
+        } 
+        else{
+            resp = {status: 'error', message: "email/password mismatched", data:{}};
+            res.status(401).send(resp);
+        }
+
+        
+        
+    } catch (error) {
+        resp = {status: 'error', message: "something went wrong", data:{}}
+        res.status(500).send(resp);
+    }
 }
 
 const getUser = async (req: Request, res: Response) => {
@@ -94,4 +139,4 @@ const updateUser = async (req: Request, res: Response) => {
 };
 
 
-export {resisterUser, getUser, updateUser};
+export {resisterUser, getUser, updateUser, loginUser};
