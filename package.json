@@ -14,8 +14,10 @@
     "typescript": "^5.9.3"
   },
   "scripts": {
-  "build": "tsc --noEmitOnError",
-  "start": "node ./dist/app.js"
-}
-
+    "build": "tsc --noEmitOnError",
+    "start": "node ./dist/app.js"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2"
+  }
 }
