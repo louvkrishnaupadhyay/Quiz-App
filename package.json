@@ -16,8 +16,7 @@
     "build": "tsc --noEmitOnError",
     "start": "node ./dist/app.js",
     "start-alt": "yarn build && yarn start",
-    "start-dev": "nodemon --exec \"node --loader ts-node/esm\" src/app.ts",
-    "dev": "yarn build && yarn start"
+    "start-dev": "nodemon"
   },
   "devDependencies": {
     "@types/node": "^25.0.3",

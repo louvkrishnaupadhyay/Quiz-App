@@ -1,6 +1,9 @@
 {
-    "env":{
-        "CONNECTION_STRING":"mongodb+srv://myuser:hiPGgXuRKIfD435j@cluster0.v3bamgn.mongodb.net/workshopdb?appName=Cluster0",
-        "PORT": 3000
-    }
+  "watch": ["src"],
+  "ext": "ts,json",            
+  "env": {
+    "CONNECTION_STRING": "mongodb+srv://myuser:hiPGgXuRKIfD435j@cluster0.v3bamgn.mongodb.net/workshopdb",
+    "PORT": "3000"
+  },
+  "exec": "node --loader ts-node/esm src/app.ts"
 }
