@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from 'mongoose';
 import userRoute from "./routes/user.js";
 const app = express();
-const connectionString = "mongodb+srv://myuser:hiPGgXuRKIfD435j@cluster0.v3bamgn.mongodb.net/workshopdb?appName=Cluster0";
+const connectionString = process.env.CONNECTION_STRING || " ";
 app.use(express.json());
 app.get('/', (req, res) => {
     res.send("Hello I am working");
@@ -11,7 +11,7 @@ app.use('/user', userRoute);
 try {
     await mongoose.connect(connectionString);
     console.log("MongoDB connected");
-    app.listen(3000);
+    app.listen(process.env.PORT);
     console.log("server connected");
 }
 catch (err) {

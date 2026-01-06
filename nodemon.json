@@ -1,0 +1,6 @@
+{
+    "env":{
+        "CONNECTION_STRING":"mongodb+srv://myuser:hiPGgXuRKIfD435j@cluster0.v3bamgn.mongodb.net/workshopdb?appName=Cluster0",
+        "PORT": 3000
+    }
+}
