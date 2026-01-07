@@ -1,16 +1,19 @@
 import express from "express";
-import {resisterUser, getUser, updateUser, loginUser} from '../controllers/user.js';
+import { getUser, updateUser} from '../controllers/user.js';
+import { isAuthenticated } from '../middlewares/isAuth.js'
 
 const router = express.Router();
 
-// POST /user/
-router.post('/', resisterUser);
 
-router.post('/login', loginUser)
 
+// User shoud be authenticate 
+// User should be authorized
 //get /user/:userId
-router.get('/:userId', getUser);
+router.get('/:userId', isAuthenticated, getUser);
 
+
+// User shoud be authenticate 
+// User should be authorized
 //PUT /user/
 router.put('/', updateUser);
 

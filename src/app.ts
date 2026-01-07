@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from 'mongoose';
 
 import userRoute from "./routes/user.js";
+import authRoute from "./routes/auth.js"
 
 
 const app = express();
@@ -14,7 +15,13 @@ app.get('/', (req: any, res: any) =>{
     res.send("Hello I am working");
 })
 
+
+//redirect user to userRoute
 app.use('/user', userRoute);
+
+
+// Redirect auth to authRoute
+app.use('/auth', authRoute);
 
 try {
   await mongoose.connect(connectionString);
