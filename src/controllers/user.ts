@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import User from "../models/user.js";
 
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken"
 
 interface returnResponse {
     status: 'success' | 'error',
@@ -39,6 +40,7 @@ const resisterUser = async (req: Request, res: Response) =>{
 }
 
 const loginUser = async (req: Request, res: Response)=>{
+
     let resp:returnResponse;
     try {
 
@@ -59,7 +61,10 @@ const loginUser = async (req: Request, res: Response)=>{
 
         //then decide
         if(status){
-            resp = {status: 'success', message: "Logged In", data:{}};
+
+            const token = jwt.sign({userId:user._id}, "secret key", { expiresIn: '1h' });
+
+            resp = {status: 'success', message: "Logged In", data:{token}};
             res.status(200).send(resp);
         } 
         else{
