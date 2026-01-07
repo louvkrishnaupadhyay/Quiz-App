@@ -15,6 +15,6 @@ router.get('/:userId', isAuthenticated, getUser);
 // User shoud be authenticate 
 // User should be authorized
 //PUT /user/
-router.put('/', updateUser);
+router.put('/', isAuthenticated, updateUser);
 
 export default router;
