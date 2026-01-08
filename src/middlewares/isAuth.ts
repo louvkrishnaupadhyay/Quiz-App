@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import projectError from "../helper/error.js";
 
 const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -8,15 +9,16 @@ const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.get("Authorization");
 
     if (!authHeader) {
-      const err = new Error("Not authenticated");
+      const err = new projectError("Not authenticated");
+      err.statusCode = 401;
       throw err;
-      // res.status(401).send("Not authenticated");
     }
 
     const token = authHeader.split(" ")[1];
 
     if (!token) {
-      const err = new Error("Not authenticated");
+      const err = new projectError("Not authenticated");
+      err.statusCode = 401;
       throw err;
     }
     //jwt --> decode using sign "secret key"
@@ -25,12 +27,14 @@ const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
     try {
       decodedToken = <any>jwt.verify(token, "secret key"); //by this we get user id
     } catch (error) {
-      const err = new Error("Not authenticated");
+      const err = new projectError("Not authenticated");
+      err.statusCode = 401;
       throw err;
     }
 
     if (!decodedToken) {
-      const err = new Error("Not authenticated");
+      const err = new projectError("Not authenticated");
+      err.statusCode = 401;
       throw err;
     }
     //user id

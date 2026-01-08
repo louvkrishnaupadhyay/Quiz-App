@@ -3,11 +3,12 @@ import User from "../models/user.js";
 
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"
+import projectError from "../helper/error.js";
 
 interface returnResponse {
     status: 'success' | 'error',
     message: String,
-    data:{}
+    data:{} | []
 }
 
 
@@ -50,8 +51,9 @@ const loginUser = async (req: Request, res: Response, next:NextFunction)=>{
         const user = await User.findOne({email});
 
         if(!user){
-            resp = { status: "error", message: "User not found", data: {} };
-            return res.status(401).send(resp);
+            const err = new projectError("User not found")
+            err.statusCode = 401;
+            throw err;
         }
 
 
@@ -67,8 +69,9 @@ const loginUser = async (req: Request, res: Response, next:NextFunction)=>{
             res.status(200).send(resp);
         } 
         else{
-            resp = {status: 'error', message: "email/password mismatched", data:{}};
-            res.status(401).send(resp);
+            const err = new projectError("email/password mismatched")
+            err.statusCode = 401;
+            throw err;
         }
 
         
