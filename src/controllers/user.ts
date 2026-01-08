@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { Request, Response, NextFunction } from "express";
 import User from "../models/user.js";
 
 
@@ -10,7 +10,7 @@ interface returnResponse {
 
 
 
-const getUser = async (req: Request, res: Response) => {
+const getUser = async (req: Request, res: Response, next:NextFunction) => {
 
     // console.log("query:", req.query);
     // console.log("params:", req.params.userId);
@@ -34,8 +34,7 @@ const getUser = async (req: Request, res: Response) => {
             res.send(resp);
         }
     } catch (error) {
-         resp = {status: 'error', message: "something went wrong", data:{}}
-        res.status(500).send(resp);
+        next(error);
     }
     
 }
@@ -58,7 +57,7 @@ const getUser = async (req: Request, res: Response) => {
 // }
 
 
-const updateUser = async (req: Request, res: Response) => {
+const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     let resp: returnResponse;
     try {
 
@@ -80,8 +79,8 @@ const updateUser = async (req: Request, res: Response) => {
         resp = { status: "success", message: "Updat done", data: {} };
         res.send(resp);
     } catch (error) {
-        resp = { status: 'error', message: "something went wrong", data: {} };
-        res.status(500).send(resp);
+        
+        next(error);
     }
 };
 

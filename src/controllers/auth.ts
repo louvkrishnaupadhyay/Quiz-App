@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import User from "../models/user.js";
 
 import bcrypt from "bcryptjs";
@@ -11,7 +11,7 @@ interface returnResponse {
 }
 
 
-const resisterUser = async (req: Request, res: Response) =>{
+const resisterUser = async (req: Request, res: Response, next:NextFunction) =>{
 
     let resp:returnResponse;
     try {
@@ -32,15 +32,13 @@ const resisterUser = async (req: Request, res: Response) =>{
             res.send(resp);
         }
     } catch (error) {
-        // console.log(error)
-        resp = {status: 'error', message: "something went wrong", data:{}}
-        res.status(500).send(resp);
+        next(error);
     }
     
     
 }
 
-const loginUser = async (req: Request, res: Response)=>{
+const loginUser = async (req: Request, res: Response, next:NextFunction)=>{
 
     let resp:returnResponse;
     try {
@@ -76,8 +74,7 @@ const loginUser = async (req: Request, res: Response)=>{
         
         
     } catch (error) {
-        resp = {status: 'error', message: "something went wrong", data:{}}
-        res.status(500).send(resp);
+        next(error)
     }
 }
 

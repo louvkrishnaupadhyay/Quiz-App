@@ -1,4 +1,5 @@
 import express from "express";
+import type { Request, Response, NextFunction } from "express";
 import mongoose from 'mongoose';
 
 import userRoute from "./routes/user.js";
@@ -30,6 +31,13 @@ app.use('/user', userRoute);
 
 // Redirect auth to authRoute
 app.use('/auth', authRoute);
+
+
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    console.log(err);
+    res.send("Something went wrong please try after sometime");
+})
 
 try {
   await mongoose.connect(connectionString);
