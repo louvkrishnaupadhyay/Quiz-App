@@ -1,7 +1,7 @@
 import express from "express";
 import { resisterUser, loginUser, isUserExist } from "../controllers/auth.js";
 import { body } from "express-validator";
-import projectError from "../helper/error.js";
+
 
 const router = express.Router();
 
@@ -18,7 +18,7 @@ router.post(
     body("email")
       .trim()
       .isEmail()
-      .custom((emailId) => {
+      .custom((emailId:String) => {
         return isUserExist(emailId)
           .then((status) => {
             if(status){
@@ -33,6 +33,13 @@ router.post(
       .normalizeEmail(),
       body('password')
       .trim()
+      // .isStrongPassword({
+      //   minLength:8,
+      //   minLowercase:1,
+      //   minUppercase:1,
+      //   minNumbers:1,
+      //   minSymbols:1
+      // })
       .isLength({min:8})
       .withMessage("Please enter the valid name , minimum 4 character"),
       body('confirm_password')
@@ -41,6 +48,7 @@ router.post(
         if(value != req.body.password){
           return Promise.reject("Password mismatch!");
         }
+        return true;
       })
   ],
   resisterUser
