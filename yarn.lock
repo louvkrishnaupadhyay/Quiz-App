@@ -642,6 +642,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"express-validator@npm:^7.3.1":
+  version: 7.3.1
+  resolution: "express-validator@npm:7.3.1"
+  dependencies:
+    lodash: "npm:^4.17.21"
+    validator: "npm:~13.15.23"
+  checksum: 10c0/f735bed5037b90c8da020712353d155562eac5c64955d759b9b9b7371a6ac0e3c1b0d354dba91c2ef9f977cfb64986880222727f175e51c716feab70d2daf6d2
+  languageName: node
+  linkType: hard
+
 "express@npm:^5.2.1":
   version: 5.2.1
   resolution: "express@npm:5.2.1"
@@ -1091,6 +1101,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash@npm:^4.17.21":
+  version: 4.17.21
+  resolution: "lodash@npm:4.17.21"
+  checksum: 10c0/d8cbea072bb08655bb4c989da418994b073a608dffa608b09ac04b43a791b12aeae7cd7ad919aa4c925f33b48490b5cfe6c1f71d827956071dae2e7bb3a6b74c
+  languageName: node
+  linkType: hard
+
 "lru-cache@npm:^11.0.0, lru-cache@npm:^11.1.0, lru-cache@npm:^11.2.1":
   version: 11.2.4
   resolution: "lru-cache@npm:11.2.4"
@@ -1536,6 +1553,7 @@ __metadata:
     "@types/node": "npm:^25.0.3"
     bcryptjs: "npm:^3.0.3"
     express: "npm:^5.2.1"
+    express-validator: "npm:^7.3.1"
     jsonwebtoken: "npm:^9.0.3"
     mongoose: "npm:^9.1.1"
     nodemon: "npm:^3.1.11"
@@ -1948,6 +1966,13 @@ __metadata:
   version: 3.0.1
   resolution: "v8-compile-cache-lib@npm:3.0.1"
   checksum: 10c0/bdc36fb8095d3b41df197f5fb6f11e3a26adf4059df3213e3baa93810d8f0cc76f9a74aaefc18b73e91fe7e19154ed6f134eda6fded2e0f1c8d2272ed2d2d391
+  languageName: node
+  linkType: hard
+
+"validator@npm:~13.15.23":
+  version: 13.15.26
+  resolution: "validator@npm:13.15.26"
+  checksum: 10c0/d66041685c531423f6b514d0481228503b96682fe30ed7925ad77ff3cd08c3983dc94f45e18457e44f62f89027b94a3342009d65421800ce65f6e0d2c6eaf7fc
   languageName: node
   linkType: hard
 
