@@ -31,6 +31,17 @@ router.post(
       })
 
       .normalizeEmail(),
+      body('password')
+      .trim()
+      .isLength({min:8})
+      .withMessage("Please enter the valid name , minimum 4 character"),
+      body('confirm_password')
+      .trim()
+      .custom((value, {req}) =>{
+        if(value != req.body.password){
+          return Promise.reject("Password mismatch!");
+        }
+      })
   ],
   resisterUser
 );
