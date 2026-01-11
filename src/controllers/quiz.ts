@@ -1,4 +1,6 @@
 import type {Request, Response, NextFunction, response} from "express";
+import { validationResult } from "express-validator";
+
 import Quiz from "../models/quiz.js";
 import projectError from "../helper/error.js";
 
@@ -12,6 +14,15 @@ interface returnResponse {
 const createQuiz = async (req: Request,res: Response, next:NextFunction) => {
     
     try {
+
+        const validationError = validationResult(req);
+        if (!validationError.isEmpty()) {
+          const err = new projectError("validation failed!");
+          err.statusCode = 422;
+          err.data = validationError.array();
+          throw err;
+        }
+
         const created_by = req.userId;                   //isAuthenticated ke last me se userId mil rhi hai
         const name = req.body.name;
         const questions_list = req.body.questions_list;
@@ -54,10 +65,19 @@ const getQuiz = async (req: Request, res: Response, next:NextFunction) => {
 
 const updateQuiz = async (req:Request, res:Response, next:NextFunction) => {
     try {
+        
+        const validationError = validationResult(req);              //this is compulsary before applying the limitation on the update quiz
+        if (!validationError.isEmpty()) {
+          const err = new projectError("validation failed!");
+          err.statusCode = 422;
+          err.data = validationError.array();
+          throw err;
+        }
+
         const quizId = req.body._id;
         
         const quiz = await Quiz.findById(quizId);
-        
+
         if(!quiz){
             const err = new projectError("Quiz not found");
             err.statusCode = 404;
@@ -67,6 +87,12 @@ const updateQuiz = async (req:Request, res:Response, next:NextFunction) => {
         if(req.userId !== quiz.created_by.toString()){
             const err = new projectError("You are not authorised");
             err.statusCode = 403;
+            throw err;
+        }
+
+        if(quiz.is_published){
+            const err = new projectError("You cannot update the published quiz!");
+            err.statusCode = 405;
             throw err;
         }
 
@@ -98,6 +124,12 @@ const deleteQuiz = async (req:Request,res:Response, next:NextFunction) => {
         if(req.userId !== quiz.created_by.toString()){
             const err = new projectError("You are not authorised");
             err.statusCode = 403;
+            throw err;
+        }
+
+        if(quiz.is_published){
+            const err = new projectError("You cannot delete the published quiz!");
+            err.statusCode = 405;
             throw err;
         }
 

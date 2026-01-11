@@ -1,30 +1,89 @@
 import express from "express";
-import {createQuiz,updateQuiz,deleteQuiz,publishQuiz,getQuiz} from "../controllers/quiz.js"
-import { isAuthenticated } from '../middlewares/isAuth.js'
-
+import {createQuiz,updateQuiz,deleteQuiz,publishQuiz,getQuiz,} from "../controllers/quiz.js";
+import { isAuthenticated } from "../middlewares/isAuth.js";
+import { body } from "express-validator";
 
 const router = express.Router();
 
 //create
 // POST /quiz/
-router.post("/", isAuthenticated, createQuiz)
+router.post(
+  "/",
+  isAuthenticated,
+  [
+    body("name")
+      .trim()
+      .not()
+      .isEmpty()
+      .isLength({ min: 10 })
+      .withMessage("Please enter the valid name , minimum 10 character"),
+
+    body("questions_list")
+    
+    .custom(questions_list => {
+        // console.log(questions_list.length);
+        if(questions_list.length == 0){
+            return Promise.reject("Enter atleast 1(One) question");
+        }
+        return true;
+    }),
+
+    body("questions_list.*.question_number")
+      .isInt({ min: 1 })
+      .withMessage("Question number must be a positive integer"),
+
+    body("answers")
+    .custom(answers => {
+        if(Object.keys(answers).length == 0){
+            return Promise.reject("Answers should not be empty")
+        }
+    })
+  ],
+
+  createQuiz
+);
 
 //get
 // GET /quiz/:Id
-router.get("/:quizId", isAuthenticated, getQuiz)
+router.get("/:quizId", isAuthenticated, getQuiz);
 
 //update
 // PUT /quiz
-router.put("/", isAuthenticated, updateQuiz)
+router.put("/", isAuthenticated, [           
+    
+    
+    //This is correct — but it only works if the controller checks validationResult.
+    body("name")
+      .trim()
+      .not()
+      .isEmpty()
+      .isLength({ min: 10 })
+      .withMessage("Please enter the valid name , minimum 10 character"),
+
+    body("questions_list")
+    .custom(questions_list => {
+        // console.log(questions_list.length);
+        if(questions_list.length == 0){
+            return Promise.reject("Enter atleast 1(One) question");
+        }
+        return true;
+    }),
+
+    body("answers")
+    .custom(answers => {
+        if(Object.keys(answers).length == 0){
+            return Promise.reject("Answers should not be empty")
+        }
+        return true;
+    })
+  ],updateQuiz);
 
 //delete
 // DELETE /quiz/:quizId
-router.delete("/:quizId", isAuthenticated, deleteQuiz)
-
+router.delete("/:quizId", isAuthenticated, deleteQuiz);
 
 //publish
 // PATCH /quiz/:quizId
-router.patch("/publish", isAuthenticated, publishQuiz)
-
+router.patch("/publish", isAuthenticated, publishQuiz);
 
 export default router;
