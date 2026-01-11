@@ -30,10 +30,17 @@ const createQuiz = async (req: Request,res: Response, next:NextFunction) => {
 const getQuiz = async (req: Request, res: Response, next:NextFunction) => {
     try {
         const quizId = req.params.quizId;
-        const quiz = await Quiz.findById(quizId);
+        const quiz = await Quiz.findById(quizId,{name:1, questions_list:1, answers:1, created_by:1});
+
         if(!quiz){
             const err = new projectError("Quiz not found");
             err.statusCode = 404;
+            throw err;
+        }
+
+        if(req.userId !== quiz.created_by.toString()){
+            const err = new projectError("You are not authorised");
+            err.statusCode = 403;
             throw err;
         }
 
@@ -45,17 +52,89 @@ const getQuiz = async (req: Request, res: Response, next:NextFunction) => {
 }
 
 
-const updateQuiz = (req:Request, res:Response) => {
-    res.send(req.body);
+const updateQuiz = async (req:Request, res:Response, next:NextFunction) => {
+    try {
+        const quizId = req.body._id;
+        
+        const quiz = await Quiz.findById(quizId);
+        
+        if(!quiz){
+            const err = new projectError("Quiz not found");
+            err.statusCode = 404;
+            throw err;
+        }
+
+        if(req.userId !== quiz.created_by.toString()){
+            const err = new projectError("You are not authorised");
+            err.statusCode = 403;
+            throw err;
+        }
+
+        quiz.name = req.body.name;
+        quiz.questions_list = req.body.questions_list;
+        quiz.answers = req.body.answers;
+
+        await quiz.save();
+        const resp:returnResponse = {status:"success", message:"Quiz updated", data:{}};
+        res.status(200).send(resp);
+    } catch (error) {
+        next(error);
+    }
+    
 }
 
 
-const deleteQuiz = (req:Request,res:Response) => {
-    res.send(req.params.quizId);
+const deleteQuiz = async (req:Request,res:Response, next:NextFunction) => {
+    try {
+        const quizId = req.params.quizId;
+        const quiz = await Quiz.findById(quizId);
+
+        if(!quiz){
+            const err = new projectError("Quiz not found");
+            err.statusCode = 404;
+            throw err;
+        }
+
+        if(req.userId !== quiz.created_by.toString()){
+            const err = new projectError("You are not authorised");
+            err.statusCode = 403;
+            throw err;
+        }
+
+        await Quiz.deleteOne({_id:quizId});
+        const resp:returnResponse = {status:"success", message:"Quiz deleted successfully", data:{}};
+        res.status(200).send(resp);
+
+    } catch (error) {
+        next(error);
+    }
 }
 
-const publishQuiz = (req:Request,res:Response) => {
-    res.send(req.body)
+const publishQuiz = async (req:Request,res:Response, next:NextFunction) => {
+    try {
+        const quizId = req.body.quizId;
+        const quiz = await Quiz.findById(quizId);
+        console.log(quiz);
+
+        if(!quiz){
+            const err = new projectError("Quiz not found");
+            err.statusCode = 404;
+            throw err;
+        }
+
+        if(req.userId !== quiz.created_by.toString()){
+            const err = new projectError("You are not authorised");
+            err.statusCode = 403;
+            throw err;
+        }
+        quiz.is_published = true;
+        await quiz.save();
+        const resp:returnResponse = {status:"success", message:"Quiz published", data:{}};
+        res.status(200).send(resp);
+
+    } catch (error) {
+        next(error);
+    }
 }
 
 export {createQuiz,updateQuiz,deleteQuiz,publishQuiz,getQuiz}
