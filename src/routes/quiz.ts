@@ -37,6 +37,7 @@ router.post(
         if(Object.keys(answers).length == 0){
             return Promise.reject("Answers should not be empty")
         }
+        return true;
     })
   ],
 
