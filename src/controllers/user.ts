@@ -1,4 +1,4 @@
-import type { Request, Response, NextFunction } from "express";
+import type { RequestHandler } from "express";
 import User from "../models/user.js";
 import projectError from "../helper/error.js";
 
@@ -8,7 +8,7 @@ interface returnResponse {
   data: {} | [];
 }
 
-const getUser = async (req: Request, res: Response, next: NextFunction) => {
+const getUser : RequestHandler= async (req, res, next) => {
   // console.log("query:", req.query);
   // console.log("params:", req.params.userId);
 
@@ -54,7 +54,7 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
 
 // }
 
-const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+const updateUser : RequestHandler = async (req, res, next) => {
   let resp: returnResponse;
   try {
     if (req.userId != req.body._id) {

@@ -1,6 +1,7 @@
-import type { Request, Response, NextFunction } from "express";
+import type { RequestHandler } from "express";
 import Report from "../models/report.js";
 import projectError from "../helper/error.js";
+
 
 interface returnResponse {
   status: "success" | "error";
@@ -8,7 +9,7 @@ interface returnResponse {
   data: {} | [];
 }
 
-const getReport = async (req:Request, res:Response, next:NextFunction) => {
+const getReport : RequestHandler = async (req, res, next) => {
     try {
         let report;
         if(!!req.params.reportId){

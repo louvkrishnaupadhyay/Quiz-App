@@ -1,4 +1,4 @@
-import type { NextFunction, Request, Response } from "express";
+import type { RequestHandler } from "express";
 import User from "../models/user.js";
 
 import bcrypt from "bcryptjs";
@@ -12,11 +12,7 @@ interface returnResponse {
   data: {} | [];
 }
 
-const resisterUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const resisterUser : RequestHandler = async (req,res,next) => {
   let resp: returnResponse;
   try {
     const validationError = validationResult(req);
@@ -49,7 +45,7 @@ const resisterUser = async (
   }
 };
 
-const loginUser = async (req: Request, res: Response, next: NextFunction) => {
+const loginUser : RequestHandler= async (req, res, next) => {
   let resp: returnResponse;
   try {
     const email = req.body.email;
