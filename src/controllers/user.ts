@@ -2,7 +2,7 @@ import type { RequestHandler } from "express";
 import User from "../models/user.js";
 import projectError from "../helper/error.js";
 
-import type { returnResponse } from "../utils.js";
+import type { returnResponse } from "../utils/returnResponse.js";
 
 const getUser : RequestHandler= async (req, res, next) => {
   // console.log("query:", req.query);

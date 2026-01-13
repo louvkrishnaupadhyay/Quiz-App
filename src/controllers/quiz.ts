@@ -5,7 +5,7 @@ import Quiz from "../models/quiz.js";
 import projectError from "../helper/error.js";
 
 
-import type { returnResponse } from "../utils.js";
+import type { returnResponse } from "../utils/returnResponse.js";
 
 const createQuiz : RequestHandler = async (req,res, next) => {
     

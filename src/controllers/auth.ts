@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import projectError from "../helper/error.js";
 import { validationResult } from "express-validator";
 
-import type { returnResponse } from "../utils.js";
+import type { returnResponse } from "../utils/returnResponse.js";
 
 
 const resisterUser : RequestHandler = async (req,res,next) => {
