@@ -5,11 +5,7 @@ import Quiz from "../models/quiz.js";
 import projectError from "../helper/error.js";
 
 
-interface returnResponse {
-  status: "success" | "error";
-  message: String;
-  data: {} | [];
-}
+import type { returnResponse } from "../utils.js";
 
 const createQuiz : RequestHandler = async (req,res, next) => {
     

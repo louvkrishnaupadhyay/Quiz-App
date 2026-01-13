@@ -6,11 +6,8 @@ import jwt from "jsonwebtoken";
 import projectError from "../helper/error.js";
 import { validationResult } from "express-validator";
 
-interface returnResponse {
-  status: "success" | "error";
-  message: String;
-  data: {} | [];
-}
+import type { returnResponse } from "../utils.js";
+
 
 const resisterUser : RequestHandler = async (req,res,next) => {
   let resp: returnResponse;

@@ -3,11 +3,7 @@ import Quiz from "../models/quiz.js";
 import projectError from "../helper/error.js";
 import Report from "../models/report.js";
 
-interface returnResponse {
-  status: "success" | "error";
-  message: String;
-  data: {} | [];
-}
+import type { returnResponse } from "../utils.js";
 
 const startExam : RequestHandler= async (req, res, next) => {
     try {

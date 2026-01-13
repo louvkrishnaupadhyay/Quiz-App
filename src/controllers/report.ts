@@ -3,11 +3,7 @@ import Report from "../models/report.js";
 import projectError from "../helper/error.js";
 
 
-interface returnResponse {
-  status: "success" | "error";
-  message: String;
-  data: {} | [];
-}
+import type { returnResponse } from "../utils.js";
 
 const getReport : RequestHandler = async (req, res, next) => {
     try {
