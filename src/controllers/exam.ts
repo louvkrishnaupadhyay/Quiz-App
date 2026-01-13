@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import Quiz from "../models/quiz.js";
 import projectError from "../helper/error.js";
-import Result from "../models/result.js";
+import Report from "../models/report.js";
 
 interface returnResponse {
   status: "success" | "error";
@@ -57,8 +57,8 @@ const submitExam = async (req: Request, res: Response, next: NextFunction) => {
         score++;
       }
     }
-    const result = new Result({quizId, userId, score, total});
-    const data = await result.save();
+    const report = new Report({quizId, userId, score, total});
+    const data = await report.save();
 
     const resp:returnResponse = {status:"success", message:"Quiz", data:{ total, score, resultId:data._id }};
     res.status(200).send(resp);

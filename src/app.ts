@@ -7,6 +7,7 @@ import authRoute from "./routes/auth.js"
 import projectError from "./helper/error.js";
 import quizRoute from "./routes/quiz.js";
 import examRoute from "./routes/exam.js";
+import reportRoute from "./routes/report.js"
 
 
 const app = express();
@@ -46,6 +47,9 @@ app.use('/quiz', quizRoute);
 
 //redirect to exam router
 app.use('/exam', examRoute);
+
+//redirect to report router
+app.use('/report', reportRoute);
 
 
 
